@@ -134,8 +134,9 @@
                 <path
                     d="M19.023 16.977a35.13 35.13 0 0 1-1.367-1.384c-.372-.378-.596-.653-.596-.653l-2.8-1.337A6.962 6.962 0 0 0 16 9c0-3.859-3.14-7-7-7S2 5.141 2 9s3.14 7 7 7c1.763 0 3.37-.66 4.603-1.739l1.337 2.8s.275.224.653.596c.387.363.896.854 1.384 1.367l1.358 1.392.604.646 2.121-2.121-.646-.604c-.379-.372-.885-.866-1.391-1.36zM9 14c-2.757 0-5-2.243-5-5s2.243-5 5-5 5 2.243 5 5-2.243 5-5 5z" />
             </svg></div>
-        </header>
-        <div class="breadcrumbs-4-in-a-row">
+    </header>
+
+    <div class="breadcrumbs-4-in-a-row">
             <h2>Home / Table Games / 4 in a Row The Fast and The Furious</h2>
             <img src="../imagenes/Compartir.png" alt="share" class="share">
 
@@ -169,24 +170,14 @@
             </div>
 
 
-        </div>
+    </div>
 
-
-
-
-
-
-
-
-
-        <!--Zona del 4 en Linea-->
-            
-        
-        <p id="pResultado">
+    <!--Zona del 4 en Linea-->
+                   
+    <p id="pResultado">
             <span id="spanResultado"></span>
-            
-        </p>
-        <div class="gameplay">
+    </p>
+    <div class="gameplay">
             <div class="gamplay_content">
                 <div class="game_btns">
                     <p id="player1"></p>
@@ -195,7 +186,7 @@
                     </div>
                     <p id="player2"></p>
                 </div>
-                <canvas id="myCanvas" ></canvas>
+                <canvas id="canvas" ></canvas>
                 <div class="game_btns">
                   <button id="reset">Reset</button>
                   <button id="menu_gm">menu</button>
@@ -203,16 +194,16 @@
                 <div class="game_menu" id="game_menu">
                     <h2>Choose Game Mode</h2>
                     <div class="gm_mode">
-                        <input type="radio" name="gm_mode" value="3mode" id="3mode">
+                        <input type="radio" name="gm_mode" value="3" id="3mode">
                         <label for="3mode"><p>3 in Row</p></label>
 
-                        <input type="radio" name="gm_mode" value="4mode" id="4mode" checked>
+                        <input type="radio" name="gm_mode" value="4" id="4mode" checked>
                         <label for="4mode"><p>4 in Row</p></label>
 
-                        <input type="radio" name="gm_mode" value="5mode" id="5mode">
+                        <input type="radio" name="gm_mode" value="5" id="5mode">
                         <label for="5mode"><p>5 in Row</p></label>
 
-                        <input type="radio" name="gm_mode" value="6mode" id="6mode">
+                        <input type="radio" name="gm_mode" value="6" id="6mode">
                         <label for="6mode"><p>6 in Row</p></label>
 
                     </div>
@@ -259,29 +250,9 @@
                     <button class="btn_play" id="btn_play">Start Game</button> 
                 </div>
             </div>
-        </div> 
+    </div> 
 
-
-        <!-- width="465" height="400" -->
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    <!-- width="465" height="400" -->
 
     <main class="home2">
         <div class="descripcion">
@@ -339,7 +310,6 @@
         </div>
     </main>
 
-
     <footer>
         <div class="footer-container">
             <div class="about">
@@ -381,8 +351,12 @@
             </ul>
         </div>
     </footer>
+
+    <!-- <script src="../js4IAR/js-4iar.js"></script>  -->
+    <!-- <script src="../js4IAR/antiguo.js"></script> -->
     <script src="../js/ficha.js"></script>
     <script src="../js/tablero.js"></script>
     <script src="../js/game.js"></script>
-</body>
+    <script src="../js/game2.js"></script>
+</body> 
 </html>

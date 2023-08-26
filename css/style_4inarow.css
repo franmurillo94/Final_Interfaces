@@ -989,8 +989,10 @@ canvas{
     background-image: url("../imagenes/Fondo.png");
     background-size: contain;
     margin: 0;
-    height: 500px;
+    height: 500px; 
     width: 1000px;
+    /* height: 65vh;
+    width: 80vw; */
     border: 1px solid white;
     position: relative;
 }
