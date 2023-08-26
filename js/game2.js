@@ -29,13 +29,13 @@ class Game {
     }
 
     draw(){
-        if(this.gameOver){
-
-            this.drawText();
-            return;
-        }
         this.draw_grid();
         this.draw_pieces();
+        if(this.gameOver){
+            ctx.fillStyle = 'rgba(0,0,0,0.75)';
+            ctx.fillRect(0,0,width,height);
+            this.drawText();
+        }
         //console.log(this.wid);
     }
     check(x,y){
