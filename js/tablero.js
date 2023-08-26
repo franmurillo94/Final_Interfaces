@@ -77,8 +77,9 @@ class Tablero{
                 }
             }
         }
-    
+        
         // si alguno cumple retorna ganador
+        console.log(this.connect4(diagLeft)+" || "+this.connect4(diagRight)+" || "+this.connect4(vert)+" || "+this.connect4(horiz));
         return this.connect4(diagLeft) || this.connect4(diagRight) || this.connect4(vert) || this.connect4(horiz);
     
     }
@@ -106,7 +107,8 @@ class Tablero{
             }
             // setear el ultimo owner
             lastOwner = cells[i].owner;
-            if (count == connect_number) {
+            if (count == this.connect_number) {
+                console.log("chequeando    " + this.connect_number);
                 for(let cell of winningCells) {
                     cell.winner = true;
                 }
@@ -156,10 +158,11 @@ insert_piece(piece,playersTurn) {
                 cell.highlight = null;
                 cell.owner = playersTurn;
                 cell.setPiece(piece);
-                return [cell.col,cell.row];
+                return [cell.row,cell.col,true];
             }
         }
     }
+    return [0,0,false];
 }
     
 }

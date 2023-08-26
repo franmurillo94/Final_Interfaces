@@ -49,6 +49,7 @@ function mouse_move1(event){
         game.draw()
         // MEJORA = si chequeas que no hay current_piece no se prende el highlight
         //game.tablero.highlightCell(event.offsetX, event.offsetY);
+        // el highlight lo puede hacer draw() pasandole offset x e y
         game.highlight(event.offsetX, event.offsetY);
         if(!is_dragging) { return; }
         // si esta draggeando...
@@ -118,7 +119,6 @@ function mouse_up() {
     if(current_piece!=null){
         game.insert_piece(current_piece);                // chequear quien es responsable de esa funcion
         current_piece=null;
-        game.set_playersTurn();
     } 
 }
 

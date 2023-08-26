@@ -38,13 +38,20 @@ class Game {
         this.draw_pieces();
         //console.log(this.wid);
     }
-    check(){
-        if(current_piece_coords != null) {
-        this.tablero.checkWin(this.current_piece_coords[1],this.current_piece_coords[2]) ? this.gameOver = true : this.gameOver = false ;
-    }
+    check(x,y){
+        
+        this.tablero.checkWin(x,y) ? this.gameOver = true : this.gameOver = false ;
+        //console.log(this.gameOver);
     }
     insert_piece(piece){
-        this.tablero.insert_piece(piece,this.playersTurn);
+        let current_p_c = this.tablero.insert_piece(piece,this.playersTurn);
+        let x = current_p_c[0];
+        let y = current_p_c[1];
+        let status = current_p_c[2];
+        if (status){
+            this.check(x,y);
+            this.set_playersTurn();
+       }
     }
 
 
@@ -85,7 +92,7 @@ class Game {
     ctx.textAlign = "center";
     ctx.textBaseline = "middle";
     
-     ctx.fillText((this.playersTurn ? this.p1_name:this.p2_name) + " wins!", width / 2, height / 2 + offset);
+     ctx.fillText((!this.playersTurn ? this.p1_name:this.p2_name) + " wins!", width / 2, height / 2 + offset);
     
 }
     timer() {
