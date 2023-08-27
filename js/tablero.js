@@ -79,7 +79,7 @@ class Tablero{
         }
         
         // si alguno cumple retorna ganador
-        console.log(this.connect4(diagLeft)+" || "+this.connect4(diagRight)+" || "+this.connect4(vert)+" || "+this.connect4(horiz));
+        //console.log(this.connect4(diagLeft)+" || "+this.connect4(diagRight)+" || "+this.connect4(vert)+" || "+this.connect4(horiz));
         return this.connect4(diagLeft) || this.connect4(diagRight) || this.connect4(vert) || this.connect4(horiz);
     
     }
