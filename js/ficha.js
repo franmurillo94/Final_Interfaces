@@ -2,14 +2,14 @@ let color_player1 = "red";
 let color_player2 = "yellow";
 
 class Piece {
-    constructor(x,y,sc,img_ficha){   // agregar img_ficha2 y img_ficha1
-        this.startX = x;                                        // posicion inicial en x de la ficha 
-        this.startY = y;                                        // posicion inicial en y de la ficha
-        this.x = x;                                             // posicion en x
-        this.y = y;                                             // posicion en y
-        this.scale = sc;                                          // tamaño escala de la ficha
+    constructor(x,y,sc,img_ficha){   
+        this.startX = x;                                        
+        this.startY = y;                                        
+        this.x = x;                                             
+        this.y = y;                                             
+        this.scale = sc;                                          
         this.img = new Image();
-        this.img.src = "../imagenes/" + img_ficha;                // imagen de la ficha
+        this.img.src = "../imagenes/" + img_ficha;               
     }
     
     draw(ctx){    

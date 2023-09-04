@@ -1,321 +1,173 @@
 "use strict"
-//----------------------------------- VARIABLES -------------------------------------------------------------------------->
 
-let canvas = document.getElementById("canvas");
-let ctx = canvas.getContext("2d");
-// parametros del juego
-let game;
-let width = 1000;   // del tablero
-let height = 500;   // del tablero
-let margin = 20;
-let grid_circle = 0.85; // tamanio del circulo en proporcion a la celda
-let color_background = "mintcream";
-let color_frame = "blue";
-// se usan en mousemove y mousedown
-let x;
-let y;
-let is_dragging = false; 
-let current_piece = null; 
-
-//----------------------------------- BOTONES DEL JUEGO -------------------------------------------------------------------------->
-
-// play
-//document.getElementById("btn_play").addEventListener("click",setearJuego);
-document.getElementById("btn_play").addEventListener("click",setGame);
-// reset
-document.getElementById("reset").addEventListener("click",setGame);
-// menu
-document.getElementById("menu_gm").addEventListener("click",()=>{     document.getElementById("game_menu").classList.remove("hidden");     });
-
-
-//----------------------------------- ACCIONES EN CANVAS -------------------------------------------------------------------------->
-
-//canvas.addEventListener('mousemove', highlightGrid);
-//canvas.addEventListener("mouseup", click);                 
-//canvas.onmouseup = mouse_up; // LISTO
-
-
-//canvas.onmousemove = mouse_move;
-
-
-
-//----------------------------------- FUNCIONES DEL MOUSE -------------------------------------------------------------------------->
-
-//                                                                                      <----------------------------------- MOUSE MOVE --
-function mouse_move1(event){
-    if(game !=null){
-        if(game.gameOver) {       console.log(game.gameOver);  }
-        ctx.clearRect(0,0,width,height);
-        game.draw()
-        // MEJORA = si chequeas que no hay current_piece no se prende el highlight
-        //game.tablero.highlightCell(event.offsetX, event.offsetY);
-        // el highlight lo puede hacer draw() pasandole offset x e y
-        game.highlight(event.offsetX, event.offsetY);
-        if(!is_dragging) { return; }
-        // si esta draggeando...
-         else {    
-        event.preventDefault();
-            // ubica las coordenadas del mouse
-            let rect = canvas.getBoundingClientRect();
-            let _x = event.clientX - rect.left;
-            let _y = event.clientY - rect.top;
-            
-            let dx = _x - x;
-            let dy = _y - y; 
-            // resta las distancias y le cambia la posicion a la ficha seleccionada
-            current_piece.x += dx;
-            current_piece.y += dy;
-    
-            x = _x;
-            y = _y;
-        };
+class Game {
+    constructor(mode,player1,player2,imgp1,imgp2) { 
+        // elementos del juego
+        this.pieces_p1 = [];                              
+        this.pieces_p2 = [];             
+        this.tablero = new Tablero(mode);
+        this.timer = new Timer();
+        // elementos player
+        this.img_ficha1 = imgp1;        
+        this.img_ficha2 = imgp2;        
+        this.p1_name = player1;         
+        this.p2_name = player2;        
+        // funcionamiento del juego;
+        this.playersTurn = true;               
+        this.gameOver = false;        
+        // dimensiones de elementos     
+        this.grid_cols = (Number(mode)+3);
+        this.grid_rows = (Number(mode)+2);                         
+        this.cell_dim = (height - margin * 2)/ this.grid_rows ;                    // ancho de celda
+        this.wid = this.cell_dim * grid_circle / 2;                                 // radio de la ficha
+        this.marginX = (width - this.cell_dim * this.grid_cols) / 2;              // margen en X
+       // timer
+        
+        this.create_pieces(mode);
+        this.timer.start(21,()=>{ this.gameOver = true; this.playersTurn = !this.playersTurn;});
+        
     }
-}
-//                                                                                      <----------------------------------- MOUSE DOWN --
-function mouse_down1(event){
-    event.preventDefault();
-    
-    let rect = canvas.getBoundingClientRect();
-    x = event.clientX - rect.left;
-    y = event.clientY - rect.top;
-    
-    let index = 0;
-    
-    if(game.playersTurn){
-        for (let piece of game.pieces_p1){
-            if(piece.clickCircle(x,y)){
-                is_dragging = true;
-                current_piece = piece;
-                return;
+    draw(){
+        this.draw_grid();
+        this.draw_pieces();
+        if(this.gameOver){
+            ctx.fillStyle = 'rgba(0,0,0,0.75)';
+            ctx.fillRect(0,0,width,height);
+            this.drawText();
+        }
+        if(this.tablero.checkEmpate()){
+            ctx.fillStyle = 'rgba(0,0,0,0.75)';
+            ctx.fillRect(0,0,width,height);
+            this.drawText("Empate");
+        }
+    }
+    check(x,y){
+        
+        this.tablero.checkWin(x,y) ? this.gameOver = true : this.gameOver = false ;
+        if(this.gameOver){
+            game.timer.stop()
+        }
+        //console.log(this.gameOver);
+    }
+    insert_piece(piece){
+        let current_p_c = this.tablero.insert_piece(piece,this.playersTurn);
+        let x = current_p_c[0];
+        let y = current_p_c[1];
+        let status = current_p_c[2];
+        if (status){
+            this.check(x,y);
+            if(this.gameOver == false){
+                this.set_playersTurn();
+                this.timer.stop()
+                this.timer.start(21,()=>{ this.gameOver = true;this.playersTurn = !this.playersTurn;});
+                //() ? this.gameOver=true : this.gameOver = false;
             }
-            index++;
         }
-        index = 0;
-    } 
-    else{
-        for (let piece of game.pieces_p2){
-            if(piece.clickCircle(x,y)){
-                is_dragging = true;
-                current_piece = piece;
-                return;
+    }
+
+
+    set_playersTurn(){ this.playersTurn = !this.playersTurn}
+
+    highlight(x, y){
+        this.tablero.highlightCell(x,y,this.playersTurn);
+    }
+   
+    create_pieces(number){
+        let num = (Number(number)+2)*(Number(number)+3);
+        for(let i = 0; i<num;i++){
+            if(i % 2 == 0){
+                this.pieces_p1.push(new Piece(this.random_player1_x(),this.random_player_y(),this.wid,this.img_ficha1));
             }
-            index++;
+            else{
+                this.pieces_p2.push(new Piece(this.random_player2_x(),this.random_player_y(),this.wid,this.img_ficha2));;
+            }
+        } 
+    }
+   
+
+
+
+
+
+
+
+
+
+
+    //////////////////////// FUNCIONES DE DIBUJO
+
+    draw_grid(){
+        // dibuja el tablero
+      this.tablero.draw();
+    }
+    draw_pieces(){
+        // dibuja fichas
+        this.pieces_p1.forEach(e=>e.draw(ctx));
+        this.pieces_p2.forEach(e=>e.draw(ctx));
+    }
+    drawText(){
+    let size = 100;      
+    let offset = size * 0.55;
+    ctx.fillStyle = 'white';
+    ctx.font = 100 + "px dejavu sans mono";
+    ctx.lineJoin = "round";
+    ctx.lineWidth = 100;
+    ctx.textAlign = "center";
+    ctx.textBaseline = "middle";
+    
+     ctx.fillText((this.playersTurn ? this.p1_name:this.p2_name) + " wins!", width / 2, height / 2 + offset);
+    }
+
+    drawText(word){
+        let size = 100;    
+        let offset = size * 0.55;
+        ctx.fillStyle = 'white';
+        ctx.font = 100 + "px dejavu sans mono";
+        ctx.lineJoin = "round";
+        ctx.lineWidth = 100;
+        ctx.textAlign = "center";
+        ctx.textBaseline = "middle";
+        
+         ctx.fillText(word, width / 2, height / 2 + offset);
+
+    }
+
+
+
+
+
+
+
+    ///////////////// RANDOM DONDE GENERAR LAS FICHAS ////////////////////
+
+
+    // genera un numero random en el eje de las x en el costado izquierdo del tablero
+    random_player1_x(){
+        let random = 0;
+        let margin = Math.floor(this.marginX);
+        let widd = Math.floor(this.wid);
+        while(random < widd || random > margin-widd){
+            random = Math.floor(Math.random()* this.marginX - 1);
         }
+    return random;
     }
-}
-//                                                                                      <----------------------------------- MOUSE UP --
-
-function mouse_up() {
-
-    is_dragging = false;
-
-    // if (gameOver) {
-    //     return;
-    // }
-    
-    // if (!playersTurn) {                       esto lo tiene que chequear juego
-    //     goPlayer2();
-    // }
-    if(current_piece!=null){
-        game.insert_piece(current_piece);                // chequear quien es responsable de esa funcion
-        current_piece=null;
-    } 
-}
-
-//----------------------------------- FUNCION BOTONES -------------------------------------------------------------------------->
-
-
-function setGame(){
-    canvas.width = width;
-    canvas.height = height;
-    ctx.clearRect(0,0,width,height);
-    let mode = getRadioValue('gm_mode');
-    let player1 = document.getElementById("player1name").value;
-    let player2 = document.getElementById("player2name").value;
-    let imgp1 = getRadioValue("player1_img");
-    let imgp2 = getRadioValue("player2_img");
-    
-    game = new Game(mode,player1,player2,imgp1,imgp2);
-
-    document.getElementById("player1").innerHTML = player1;
-    document.getElementById("player2").innerHTML = player2;
-    document.getElementById("game_menu").classList.add("hidden");
-
-    game.draw();
-}
-
-// se usa en setGame
-function getRadioValue(name){
-    for (var i = 0; i < document.getElementsByName(name).length; i++){
-        if (document.getElementsByName(name)[i].checked){
-            return document.getElementsByName(name)[i].value;
+    // genera un numero random en el eje de las x en el costado derecho del tablero
+    random_player2_x(){
+        let random = 0;
+        let margin = Math.floor(this.marginX + (this.cell_dim*this.grid_cols));
+        while(random < margin + this.wid || random > width-this.wid){
+           random =Math.floor(Math.random()* width);
         }
+        return random;
     }
-}
-
-////////////////////////////////////////////////////////////////   ESTO ES DEL MENU HAMBURGUESA NO DEL JUEGO //////////////////////////!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-
-let navigation = document.querySelector(".navigation");
-let menu = document.querySelector("#menu");
-menu.onclick = function (){
-
-    this.classList.toggle('active');
-    menu.classList.toggle("openmenu");
-    navigation.classList.toggle('active');
-    
-}
-    
-    
-    
-    
-    
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    
-
-// ---------------------------------------------------------------------------------------------------------------------------------- MOUSE UP --
-
-function click(ev) {
-    is_dragging = false;
-    
-    if (gameOver) {
-        return;
-    }
-    
-    if (!playersTurn) {
-        goPlayer2();
-    }
-    if(current_piece!=null){
-        selectCell(current_piece);
-        current_piece=null;
-    } 
-    
-    //----------------------------------------------------------------   GO PLAYER 
-    function goPlayer2(){
-        if(!playersTurn || gameOver){
-            return;
+    // genera un numero random en el eje de las y en el alto del canvas
+    random_player_y(){
+        let random = 0;
+        let widd = Math.floor(this.wid);
+        while(random < widd || random > height-widd){
+            random = Math.floor(Math.random()* height - 1);
         }
-    
-        if(click){
-            playersTurn = true;
-        }
+        return random;
     }
+
 }
-
-
-canvas.onmousedown = mouse_down1;
-canvas.onmousemove = mouse_move1;
-canvas.onmouseup = mouse_up;
