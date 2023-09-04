@@ -3,23 +3,28 @@ let obj = [
     {
       'name': 'TheLastBlade', 
       'state': 'play',
-      'img': 'imagenes/The Last Blade.png',
-      'categ': 'played',
+      'img': 'imagenes/TheLastBlade.png',
+      'categ': 'played'
     }, {
       'name': 'Neo Geo Cup 98', 
       'state': 'play',
       'img': 'imagenes/NeoGeoCup98.jpg',
-      'categ': 'played',
+      'categ': 'played'
+    }, {
+      'name': '4 in a Row', 
+      'state': 'play',
+      'img': 'imagenes/4inarow.jpg',
+      'categ': 'played'
     },{
       'name': 'Uno', 
       'state': 'play',
       'img': 'imagenes/unogame.jpg',
-      'categ': 'played',
+      'categ': 'played'
     },{
       'name': 'Comix Zone', 
       'state': 'play',
       'img': 'imagenes/ComixZone.jpg',
-      'categ': 'played',
+      'categ': 'played'
       
     }, {
       'name': 'Super Mario Bros', 
@@ -69,29 +74,29 @@ let obj = [
     }, {
         'name': 'TheLastBlade', 
         'state': 'play',
-        'img': 'imagenes/The Last Blade.png',
+        'img': 'imagenes/TheLastBlade.png',
         'categ': 'played',
       }, {
         'name': 'Neo Geo Cup 98', 
         'state': 'play',
         'img': 'imagenes/NeoGeoCup98.jpg',
-        'categ': 'played',
+        'categ': 'played'
       },{
         'name': 'Uno', 
         'state': 'play',
         'img': 'imagenes/unogame.jpg',
-        'categ': 'played',
+        'categ': 'played'
       },{
         'name': 'Comix Zone', 
         'state': 'play',
         'img': 'imagenes/ComixZone.jpg',
-        'categ': 'played',
+        'categ': 'played'
         
       }, {
         'name': 'Super Mario Bros', 
         'state': 'play',
         'img': 'imagenes/Mariobros.jpg',
-        'categ': 'played',
+        'categ': 'played'
         
       }, {
         'name': 'Fortnite', 
@@ -135,7 +140,7 @@ let obj = [
       },{
         'name': 'TheLastBlade', 
         'state': 'play',
-        'img': 'imagenes/The Last Blade.png',
+        'img': 'imagenes/TheLastBlade.png',
         'categ': 'played',
       }, {
         'name': 'Neo Geo Cup 98', 
@@ -147,57 +152,6 @@ let obj = [
         'state': 'play',
         'img': 'imagenes/unogame.jpg',
         'categ': 'played',
-      },{
-        'name': 'Comix Zone', 
-        'state': 'play',
-        'img': 'imagenes/ComixZone.jpg',
-        'categ': 'played',
-        
-      }, {
-        'name': 'Super Mario Bros', 
-        'state': 'play',
-        'img': 'imagenes/Mariobros.jpg',
-        'categ': 'played',
-        
-      }, {
-        'name': 'Fortnite', 
-        'state': 'play',
-        'img': 'imagenes/fortnite.jpg',
-        'categ': 'played',
-        
-      },{
-        'name': 'Marvel vs Capcom', 
-        'state': 'play',
-        'img': 'imagenes/MarvelvsCampcom.jpg',
-        'categ': 'played',
-        
-      },
-  
-      {
-        'name': 'Chess', 
-        'state': 'play',
-        'img': 'imagenes/chess.jpg',
-        'categ': 'played',
-        
-      },
-      {
-        'name': 'Metal SLug 2', 
-        'state': 'play',
-        'img': 'imagenes/metalslug2.jpg',
-        'categ': 'played',
-      },
-      
-      {
-        'name': 'TheLastBlade', 
-        'state': 'play',
-        'img': 'imagenes/TheLastBlade.png',
-        'categ': 'played',
-      },{
-        'name': 'Marvel vs Capcom', 
-        'state': 'play',
-        'img': 'imagenes/MarvelvsCampcom.jpg',
-        'categ': 'played',
-        
       },
        
 
@@ -230,7 +184,7 @@ let obj = [
           'name': 'Marvel vs Capcom', 
           'state': 'play',
           'img': 'imagenes/MarvelvsCampcom.jpg',
-          'categ': 'accion',
+          'categ': 'accion'
           
         },
         {
